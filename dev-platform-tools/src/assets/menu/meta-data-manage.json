@@ -1,0 +1,71 @@
+{
+    "defaultActive": "/",
+    "subMenu": [
+        {
+            "index": "1",
+            "icon": "el-icon-location",
+            "title": "全局概览",
+            "url": "/metaData/whole",
+            "children": [
+                {
+                    "index": "1-1",
+                    "icon": "",
+                    "title": "项目统计",
+                    "url": "/metaData/whole/statistics"
+                }
+            ]
+        },
+        {
+            "index": "2",
+            "icon": "el-icon-location",
+            "title": "元数据维护",
+            "url": "/metaData/maintain",
+            "children": [
+                {
+                    "index": "2-1",
+                    "icon": "",
+                    "title": "库管理",
+                    "url": "/metaData/maintain/library"
+                },
+                {
+                    "index": "2-2",
+                    "icon": "",
+                    "title": "表管理",
+                    "url": "/metaData/maintain/table"
+                },
+                {
+                    "index": "2-3",
+                    "icon": "",
+                    "title": "表明细信息管理",
+                    "url": "/metaData/maintain/tableInfo"
+                }
+            ]
+        },
+        {
+            "index": "3",
+            "icon": "el-icon-location",
+            "title": "元数据应用",
+            "url": "/metaData/application",
+            "children": [
+                {
+                    "index": "3-1",
+                    "icon": "",
+                    "title": "数据库结构同步",
+                    "url": "/metaData/application/dataBase"
+                },
+                {
+                    "index": "3-2",
+                    "icon": "",
+                    "title": "数据标准匹配",
+                    "url": "/metaData/application/dataStandard"
+                },
+                {
+                    "index": "3-3",
+                    "icon": "",
+                    "title": "数据查询",
+                    "url": "/metaData/application/query"
+                }
+            ]
+        }
+    ]
+}

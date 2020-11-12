@@ -1,0 +1,89 @@
+/*
+ * @Author: Marlon
+ * @Date: 2020-04-26 21:31:39
+ * @LastEditors: Marlon
+ * @LastEditTime: 2020-07-21 20:12:48
+ * @Description: 全局自定义
+ */
+// 表格组件中的自定义操作
+@import "~@/assets/css/platform/gst/config.scss";
+.table_custom_edit_popover {
+    .popover-list {
+        overflow: hidden;
+        li {
+            padding: 3px 5px;
+            color: #409eff;
+            &:hover {
+                background: $lt_menu_bg;
+                cursor: pointer;
+                color: #fff;
+            }
+        }
+    }
+}
+/* 数据开发-自助智能分析 */
+// 左侧规则树 操作
+.source-tree-edit {
+    min-width: 60px;
+    width: 60px;
+    text-align: center;
+    ul {
+        overflow: hidden;
+        li {
+            &:hover {
+                color: #01c1df;
+                cursor: pointer;
+            }
+        }
+    }
+}
+//
+.data-set-tree-edit {
+    min-width: 80px;
+    width: 80px;
+    text-align: center;
+    ul {
+        overflow: hidden;
+        li {
+            margin: 3px 0;
+            &:hover {
+                color: #01c1df;
+                cursor: pointer;
+            }
+        }
+    }
+}
+//
+.data-set-update-tree-edit {
+    min-width: 100px;
+    width: 100px;
+    text-align: center;
+    ul {
+        overflow: hidden;
+        li {
+            margin: 3px 0;
+            &:hover {
+                color: #01c1df;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+/* 数据标准管理 */
+// 树形操作列表
+.pro-tree-edit {
+    overflow: hidden;
+    & > ul {
+        overflow: hidden;
+        li {
+            margin: 2px 0;
+            padding: 2px 10px;
+            &:hover {
+                color: #01c1df;
+                cursor: pointer;
+                background-color: #e8f4ff;
+            }
+        }
+    }
+}

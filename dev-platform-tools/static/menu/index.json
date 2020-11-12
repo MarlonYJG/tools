@@ -1,0 +1,16 @@
+{
+    "stytemList": [
+        {
+            "system": "dmp",
+            "icon": "Matrix",
+            "title": "矩阵",
+            "url": "/ds-manage/"
+        },
+        {
+            "system": "gbc",
+            "icon": "Matrix",
+            "title": "魔方",
+            "url": "/indicator-center-web/"
+        }
+    ]
+}

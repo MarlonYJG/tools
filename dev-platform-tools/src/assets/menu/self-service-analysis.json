@@ -1,0 +1,25 @@
+{
+    "defaultActive": "/",
+    "subMenu": [
+        {
+            "index": "1",
+            "icon": "el-icon-location",
+            "title": "数据准备",
+            "url": "/analysis/preparation",
+            "children": [
+                {
+                    "index": "1-1",
+                    "icon": "",
+                    "title": "数据源",
+                    "url": "/analysis/preparation/dataSource"
+                },
+                {
+                    "index": "1-2",
+                    "icon": "",
+                    "title": "数据集",
+                    "url": "/analysis/preparation/dataSet"
+                }
+            ]
+        }
+    ]
+}

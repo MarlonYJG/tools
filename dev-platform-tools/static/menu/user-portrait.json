@@ -1,0 +1,25 @@
+{
+    "defaultActive": "/",
+    "subMenu": [
+        {
+            "index": "1",
+            "icon": "el-icon-location",
+            "title": "标签管理",
+            "url": "/userPortrait/labelManage",
+            "children": [
+                {
+                    "index": "1-1",
+                    "icon": "",
+                    "title": "标签定义",
+                    "url": "/userPortrait/labelManage/LabelMaintain"
+                },
+                {
+                    "index": "1-1",
+                    "icon": "",
+                    "title": "标签设置",
+                    "url": "/userPortrait/labelManage/LabelSet"
+                }
+            ]
+        }
+    ]
+}

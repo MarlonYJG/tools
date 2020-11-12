@@ -1,0 +1,111 @@
+{
+    "defaultActive": "/",
+    "subMenu": [
+        {
+            "index": "1",
+            "icon": "el-icon-location",
+            "title": "数据ETL配置",
+            "url": "/menuNav1",
+            "children": [
+                {
+                    "index": "1-1",
+                    "icon": "",
+                    "title": "数据源管理",
+                    "url": "/menuNav1/dataInfo",
+                    "children": [
+                        {
+                            "index": "1-1-1",
+                            "icon": "",
+                            "title": "数据源信息",
+                            "url": "/menuNav1/dataInfo"
+                        }
+                    ]
+                },
+                {
+                    "index": "1-2",
+                    "icon": "",
+                    "title": "作业规则",
+                    "url": "/menuNav1/taskList",
+                    "children": [
+                        {
+                            "index": "1-2-1",
+                            "icon": "",
+                            "title": "作业列表",
+                            "url": "/menuNav1/taskList"
+                        }
+                    ]
+                },
+                {
+                    "index": "1-3",
+                    "icon": "",
+                    "title": "作业配置",
+                    "url": "/menuNav1/ruleConfig",
+                    "children": [
+                        {
+                            "index": "1-3-1",
+                            "icon": "",
+                            "title": "转换规则配置",
+                            "url": "/menuNav1/ruleConfig"
+                        }
+                    ]
+                },
+                {
+                    "index": "1-4",
+                    "icon": "",
+                    "title": "数据追溯",
+                    "url": "/metaData/whole/statistics",
+                    "children": [
+                        {
+                            "index": "1-4-1",
+                            "icon": "",
+                            "title": "作业列表",
+                            "url": "/menuNav1/jobList"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "index": "2",
+            "icon": "el-icon-location",
+            "title": "作业调度管理",
+            "url": "/menuNav2/timeTask",
+            "children": [
+                {
+                    "index": "2-1-1",
+                    "icon": "",
+                    "title": "定时任务",
+                    "url": "/menuNav2/timeTask"
+                },
+                {
+                    "index": "2-1-2",
+                    "icon": "",
+                    "title": "依赖任务",
+                    "url": "/menuNav2/relyTask"
+                }
+            ]
+        },
+        {
+            "index": "3",
+            "icon": "el-icon-location",
+            "title": "配置数据管理",
+            "url": "/menuNav3",
+            "children": [
+                {
+                    "index": "3-1",
+                    "icon": "",
+                    "title": "前端数据管理",
+                    "url": "/menuNav3/index",
+                    "children": [
+                        {
+                            "index": "3-1-1",
+                            "icon": "",
+                            "title": "前端数据管理",
+                            "url": "/menuNav3/index"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

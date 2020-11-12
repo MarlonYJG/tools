@@ -1,0 +1,33 @@
+/*
+ * @Author: Marlon
+ * @Date: 2020-04-26 21:35:16
+ * @LastEditors: zhangxd-i
+ * @LastEditTime: 2020-08-28 19:03:04
+ * @Description: 字体库
+ */
+// 简 - 中粗体
+
+@font-face {
+    font-family: "pingfang sc 中粗体";
+    src: url("../../assets/font/PingFangSC-zhoangcuti.ttf");
+}
+// 简 - 常规体
+@font-face {
+    font-family: "pingfang sc 常规体";
+    src: url("../../assets/font/pingfang-jianti.ttf");
+}
+// 简 - 中黑体
+@font-face {
+    font-family: PingFang-SC-Medium;
+    src: url("../../assets/font/PingFang-SC-Medium.otf");
+}
+//苹方 简 - 常规
+@font-face {
+    font-family: PingFang-SC-Regular;
+    src: url("../../assets/font/PingFangSC-Regular.otf");
+}
+//苹方 简 - 细体
+@font-face {
+    font-family: PingFang-SC-Light;
+    src: url("../../assets/font/PingFangSC-Light.otf");
+}

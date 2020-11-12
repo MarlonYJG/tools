@@ -1,0 +1,41 @@
+.indicaor-list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  .indicaor-list-selectBox {
+    display: flex;
+    justify-content: space-between;
+    .indicaor-list-selectBox-one {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & > li:not(:last-child) {
+        margin-right: 20px;
+        height: 30px;
+      }
+    }
+  }
+  &-btn{
+    display: flex;
+  }
+}
+
+.derive-list{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  &-selectBox{
+    width: 100%;
+   display: flex;
+   justify-content: space-between;
+   margin:15px 0;
+   &-one,&-two{
+     display:flex;
+     align-items: center;
+     & > li:not(:last-child) {
+      margin-right: 13px;
+      height: 30px;
+    }
+   }
+  }
+}
