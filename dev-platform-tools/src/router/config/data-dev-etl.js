@@ -32,7 +32,7 @@ export default [
         path: '/etl',
         name: 'etl',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/etl/manage/projectManage',
         meta: {

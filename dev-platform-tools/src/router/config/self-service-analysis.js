@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-04-26 14:51:52
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:34:53
+ * @LastEditTime: 2020-11-20 15:15:33
  * @Description: 数据开发-自助智能分析
  */
 import system from '@/config/system.config.js'
@@ -34,7 +34,7 @@ export default [
         path: '/analysis',
         name: 'analysis',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/analysis/preparation',
         meta: {

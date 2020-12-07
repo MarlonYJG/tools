@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-24 09:05:44
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:33:03
+ * @LastEditTime: 2020-12-04 15:45:23
  * @Description: 数据采集
  */
 import system from '@/config/system.config.js'
@@ -37,7 +37,7 @@ export default [
         path: '/dataCollection',
         name: 'dataCollection',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/dataCollection/whole',
         meta: {

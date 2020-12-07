@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/css/platform/gst/config.scss";
+@import "~@/assets/css/config.scss";
 
 .tabs-dialog {
   // TODO 编辑按钮配色

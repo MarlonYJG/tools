@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-05-12 17:01:58
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:35:04
+ * @LastEditTime: 2020-11-20 15:19:04
  * @Description: 用户画像
  */
 import system from '@/config/system.config.js'
@@ -31,7 +31,7 @@ export default [
         path: '/userPortrait',
         name: 'userPortrait',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/userPortrait/labelManage',
         meta: {

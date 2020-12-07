@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-18 21:59:18
  * @LastEditors: Marlon
- * @LastEditTime: 2020-10-13 14:49:24
+ * @LastEditTime: 2020-12-04 10:53:16
  * @Description: 表格组件
  -->
  <template>
@@ -222,6 +222,22 @@
                   <span>{{ scope.row[column.prop] }}</span>
                 </div>
               </el-popover>
+              <!-- 弹出框提示2 -->
+              <el-tooltip
+                v-if="columnContentType(scope, (type = 'tooltip'), column)"
+                effect="dark"
+                placement="bottom"
+              >
+                <div slot="content">
+                  <p
+                    v-for="(item__, index_) in column.tooltipArr"
+                    :key="index_"
+                  >
+                    {{ item__.labelProp }}{{ scope.row[item__.valueProp] }}
+                  </p>
+                </div>
+                <span>{{ scope.row[column.prop] }}</span>
+              </el-tooltip>
               <!-- 文字提示 -->
             </template>
           </el-table-column>
@@ -336,6 +352,31 @@
             </template>
           </template>
         </el-table-column>
+        <el-table-column
+          :label="TEdit.title"
+          :width="TEdit.width || null"
+          :fixed="TEdit.fixed || null"
+          align="center"
+          v-else-if="
+            TEdit.show && TEdit.slot && TEdit.type && TEdit.type === 'state'
+          "
+        >
+          <!-- 开关 -->
+          <template slot-scope="scope">
+            <template v-for="(item_, index_) in scope.row.edit.editTypes">
+              <el-link
+                size="mini"
+                :key="index_"
+                :underline="false"
+                :type="item_.css || null"
+                :disabled="item_.disabled || false"
+                @click="TEditFn(item_, scope.row)"
+                >{{ item_.label }}</el-link
+              >
+            </template>
+          </template>
+        </el-table-column>
+
         <!-- 末尾操作(默认方式) -->
         <el-table-column
           v-else-if="TEdit.show"
@@ -355,6 +396,11 @@
             >
           </template>
         </el-table-column>
+      </template>
+      <!-- 无数据展示 -->
+      <template slot="empty">
+        <span class="empty-icon"></span>
+        <span>暂无数据</span>
       </template>
     </el-table>
     <!-- 分页 -->
@@ -425,6 +471,13 @@ export default {
         };
       },
     },
+    // // 可点击的单元格
+    // TClickTable: {
+    //   type: Array,
+    //   default: function() {
+    //     return [];
+    //   }
+    // },
     // 是否显示分页
     TIsShowPage: {
       type: Boolean,
@@ -558,6 +611,11 @@ export default {
       type: [Number, String, Boolean, Array],
       default: false,
     },
+    // 当前可操作得对应TId
+    TCurrentTid: {
+      type: String,
+      default: "",
+    },
     // 是否启动行拖拽
     TRowDrop: {
       type: Boolean,
@@ -570,7 +628,7 @@ export default {
         return [10, 20];
       },
     },
-    // 标记综合风险度颜色
+    // 标记综合风险度颜色 TODO
     isShowClass: {
       type: Object,
       default: function () {
@@ -791,6 +849,17 @@ export default {
                   sign = `clickStyle-${this.TClickItem[index].color}`;
                 } else if (this.TClickItem[index].link) {
                   sign = "clickStyle";
+                } else if (
+                  this.TClickItem[index].type === "exceptionValue-dialog"
+                ) {
+                  if (
+                    Array.isArray(this.TClickItem[index].value) &&
+                    this.TClickItem[index].value.includes(row[clickCell])
+                  ) {
+                    sign = `clickStyle-${this.TClickItem[index].color}`;
+                  } else {
+                    sign = "";
+                  }
                 }
                 return sign;
               }
@@ -904,11 +973,38 @@ export default {
             this.TClickItem[index].type === "specialValue-dialog"
           ) {
             if (this.TClickItem[index].cb) {
-              this.TClickItem[index]["cb"]({ row, column, cell, event });
+              if (this.TClickItem[index].cells.length) {
+                let clickItem_ = this.TClickItem[index].cells;
+                for (let j = 0; j < clickItem_.length; j++) {
+                  if (colClink === clickItem_[j]) {
+                    this.TClickItem[index]["cb"]({ row, column, cell, event });
+                  }
+                }
+              }
             }
-            return;
+            // return;
           }
 
+          // 特殊值的点击-弹框2
+          if (
+            this.TClickItem[index].type &&
+            this.TClickItem[index].type === "exceptionValue-dialog"
+          ) {
+            if (this.TClickItem[index].cb) {
+              if (this.TClickItem[index].cells.length) {
+                let clickItem_ = this.TClickItem[index].cells;
+                for (let j = 0; j < clickItem_.length; j++) {
+                  if (
+                    colClink === clickItem_[j] &&
+                    Array.isArray(this.TClickItem[index].value) &&
+                    this.TClickItem[index].value.includes(row[colClink])
+                  ) {
+                    this.TClickItem[index]["cb"]({ row, column, cell, event });
+                  }
+                }
+              }
+            }
+          }
           // 跳转一站式或者历史交易回溯
           if (
             this.TClickItem[index].type &&
@@ -950,7 +1046,6 @@ export default {
         this.row_ = row;
         let column_ = Object.assign({}, column, this.clickEditBtnObj);
         // 获取编辑列指定按钮的行信息(代理)
-        console.log("单元格事件", row, column);
         this.$emit("clickCell", { row, column: column_, id: this.TId });
       }
       this.index_ = 0;
@@ -978,11 +1073,14 @@ export default {
     // 确定哪些列是可自定义类型的列(抽象为同一类)
     colunmFieldFn(column) {
       let returnIsTrue = false;
-      this.$emit("columnContentType", "propsType", { column }, function (
-        isTrue
-      ) {
-        returnIsTrue = isTrue;
-      });
+      this.$emit(
+        "columnContentType",
+        "propsType",
+        { column },
+        function (isTrue) {
+          returnIsTrue = isTrue;
+        }
+      );
       return returnIsTrue;
     },
     // 确定可自定义列的内容的渲染类型
@@ -1014,7 +1112,7 @@ export default {
 </script>
  
 <style lang="scss" scoped>
-@import "~@/assets/css/platform/gst/config.scss";
+@import "~@/assets/css/config.scss";
 .T-table {
   margin: 10px 0;
   //   .el-button:focus,
@@ -1091,14 +1189,6 @@ export default {
       color: $table_0_cg;
       font-weight: bold;
     }
-    // 样式1
-    .text {
-      color: #1890ff;
-      cursor: pointer;
-      &:hover {
-        color: rgb(0, 204, 204);
-      }
-    }
     /* 行标记 */
     .active {
       // 激活当前行
@@ -1134,6 +1224,10 @@ export default {
   }
   /deep/ .el-table--enable-row-transition .el-table__body td {
     height: 45px;
+  }
+
+  /deep/ .el-table__empty-text {
+    line-height: 40px;
   }
 }
 </style>

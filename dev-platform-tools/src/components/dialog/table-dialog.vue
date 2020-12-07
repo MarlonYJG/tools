@@ -560,7 +560,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/css/platform/gst/config.scss";
+@import "~@/assets/css/config.scss";
 .T-dialog {
   margin: 10px 0;
   /deep/ .el-table {

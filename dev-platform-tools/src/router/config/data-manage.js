@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-21 10:52:32
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:33:31
+ * @LastEditTime: 2020-11-20 15:14:39
  * @Description: 数据管理
  */
 import system from '@/config/system.config.js'
@@ -25,7 +25,7 @@ export default [
         path: '/dataSource',
         name: 'dataSource',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/dataSource/list',
         meta: {

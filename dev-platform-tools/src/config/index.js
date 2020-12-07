@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-10-30 15:48:09
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 14:59:56
+ * @LastEditTime: 2020-12-07 09:40:30
  * @Description: 系统——》平台——》产品名(项目名) || 产品级配置
  */
 
@@ -20,6 +20,15 @@
         业务中台：  gbc
             指标中心：indicator-center
             用户画像：user-portrait
+        公共配置： cfg
+            控制台：console
+            管理中心：control-center
+    }
+    BD  : {
+        标道：  BD
+    }
+    SHBI:{
+        自助智能分析：  SHBI
     }
 */
 
@@ -46,5 +55,14 @@ export const PRODUCTLIST = {
         BASEURL: '',
         BASEURL_testing: 'http://10.0.204.111',
         BASEURL_local: 'http://10.0.204.128',
+    },
+    SHBI: {
+        /* 系统配置(默认) */
+        PLATFORM: 'shbi',// 平台名称
+        PROJECTKEY: 'shbi', // 系统名称
+        /* API配置 */
+        BASEURL: '',
+        BASEURL_testing: 'http://10.0.204.104',
+        BASEURL_local: 'http://10.0.204.104',
     }
 }

@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-20 21:57:24
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:34:32
+ * @LastEditTime: 2020-11-20 15:15:25
  * @Description: 元数据管理
  */
 import system from '@/config/system.config.js'
@@ -41,7 +41,7 @@ export default [
         path: '/metaData',
         name: 'metaData',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/metaData/index',
         meta: {

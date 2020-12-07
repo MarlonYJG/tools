@@ -1,7 +1,67 @@
 /*
  * @Author: Marlon
- * @Date: 2020-11-03 14:39:44
- * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 14:40:29
- * @Description: 第三方库(修改)-BD
+ * @Date: 2020-04-26 21:34:03
+ * @LastEditors: zhangxd-i
+ * @LastEditTime: 2020-11-13 08:52:35
+ * @Description: 第三方库(修改)
  */
+$mainColor: #1F5191;
+
+ 
+// ----------标道表格样式修改(start)---------
+
+// button 样式
+.el-button--primary {
+  background-color: $mainColor;
+  border-color: $mainColor;
+}
+// 卡片table 边框头部颜色
+.el-table--card .el-table__body-wrapper .el-table__row td:first-child .cell::before, .el-table--card .el-table__fixed-body-wrapper .el-table__row td:first-child .cell::before {
+  background: $mainColor;
+}
+.el-table--card.el-table--enable-row-hover .el-table__body tr:hover td:first-child, .el-table--card.el-table--enable-row-hover .el-table__body tr:hover td:last-child {
+  border-color: $mainColor;
+}
+// 表格边框颜色
+.el-table--card.el-table--enable-row-hover .el-table__body tr:hover td {
+  border-color: $mainColor;
+  background: rgba(0, 149, 210, 0.2);
+}
+
+// 标签样式
+.el-tag {
+  margin-right: 10px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 2px;
+  border: 1px solid $mainColor
+}
+.el-tag, .el-tag .el-tag__close {
+  color: $mainColor;
+  background: rgba(229, 244, 250, 1);
+}
+
+// 搜索样式
+.el-icon-search {
+  font-size: 18px;
+  color: #fff;
+}
+.el-input-group {
+  border-color: $mainColor;
+}
+
+// 表格样式
+.el-table--card .el-table__body-wrapper .el-table__row.current-row td, .el-table--card .el-table__fixed-body-wrapper .el-table__row.current-row td {
+  border-color: $mainColor
+}
+.el-table__footer-wrapper {
+  display: none;
+}
+// 提示信息头部样式
+.el-message-box__header {
+  background-color: $mainColor;
+}
+.el-message-box__headerbtn {
+  top: 9px;
+}
+// ----------标道表格样式修改(end)---------

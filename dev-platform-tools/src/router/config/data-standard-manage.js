@@ -2,12 +2,11 @@
  * @Author: Marlon
  * @Date: 2020-07-20 10:33:42
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:33:51
+ * @LastEditTime: 2020-12-04 11:00:53
  * @Description: 数据标准管理
  */
 
-import system from '@/config/system.config.js'
-const { PLATFORM } = system
+import { PRODUCT } from '@/config'
 /* 隐藏页 */
 const otherIndex = () => import('@/views/data-standard-manage/other/index')
 // 顶板数据-查看详情
@@ -41,6 +40,8 @@ const rulesStatistics = () => import('@/views/data-standard-manage/rules-managem
 const dataFixed = () => import('@/views/data-standard-manage/issue-management/data-fixed')
 // 数据采集标准
 const collection = () => import('@/views/data-standard-manage/issue-management/collection')
+
+
 // 规则统计
 
 export default [
@@ -53,7 +54,7 @@ export default [
         path: '/dataStandardManage',
         name: 'dataStandardManage',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/gst`], resolve);
         },
         redirect: '/dataStandardManage/editManage',
         meta: {

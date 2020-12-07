@@ -1,13 +1,58 @@
 /*
+ *                                |~~~~~~~|
+ *                                |       |
+ *                                |       |
+ *                                |       |
+ *                                |       |
+ *                                |       |
+ *     |~.\\\_\~~~~~~~~~~~~~~xx~~~         ~~~~~~~~~~~~~~~~~~~~~/_//;~|
+ *     |  \  o \_         ,XXXXX),                         _..-~ o /  |
+ *     |    ~~\  ~-.     XXXXX`)))),                 _.--~~   .-~~~   |
+ *      ~~~~~~~`\   ~\~~~XXX' _/ ';))     |~~~~~~..-~     _.-~ ~~~~~~~
+ *               `\   ~~--`_\~\, ;;;\)__.---.~~~      _.-~
+ *                 ~-.       `:;;/;; \          _..-~~
+ *                    ~-._      `''        /-~-~
+ *                        `\              /  /
+ *                          |         ,   | |
+ *                           |  '        /  |
+ *                            \/;          |
+ *                             ;;          |
+ *                             `;   .       |
+ *                             |~~~-----.....|
+ *                            | \             \
+ *                           | /\~~--...__    |
+ *                           (|  `\       __-\|
+ *                           ||    \_   /~    |
+ *                           |)     \~-'      |
+ *                            |      | \      '
+ *                            |      |  \    :
+ *                             \     |  |    |
+ *                              |    )  (    )
+ *                               \  /;  /\  |
+ *                               |    |/   |
+ *                               |    |   |
+ *                                \  .'  ||
+ *                                |  |  | |
+ *                                (  | |  |
+ *                                |   \ \ |
+ *                                || o `.)|
+ *                                |`\\) |
+ *                                |       |
+ *                                |       |
+ */
+
+/*
  * @Author: Marlon
  * @Date: 2020-05-08 14:59:02
  * @LastEditors: Marlon
- * @LastEditTime: 2020-10-30 16:34:19
+ * @LastEditTime: 2020-12-02 16:45:44
  * @Description: 全局自定义指令
  */
 import Vue from 'vue'
 
-// 防抖
+/* 
+    防抖
+*/
 (function () {
     let openDelay = false;
     Vue.directive('intervalclick', function (el, binding) {
@@ -38,3 +83,29 @@ import Vue from 'vue'
         }
     })
 })()
+
+/* 
+    拖拽
+*/
+Vue.directive('trag', (el, binding) => {
+    el.style.position = 'absolute';
+    el.onmousedown = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var startX = e.clientX - el.offsetLeft;
+        var startY = e.clientY - el.offsetTop;
+        document.onmousemove = function (e) {
+            var ev = e || event;
+            ev.cancelBubble = true;
+            ev.returnValue = false;
+            var endX = e.clientX - startX;
+            var endY = e.clientY - startY;
+            el.style.left = endX + 'px';
+            el.style.top = endY + 'px';
+        }
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    }
+})

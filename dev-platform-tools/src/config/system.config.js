@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-03-14 11:08:14
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:35:34
+ * @LastEditTime: 2020-12-02 15:56:37
  * @Description: 系统级配置
  */
 import PRODUCTCONFIG from './product'
@@ -36,13 +36,13 @@ if (process.env.NODE_ENV === 'development') {
 
 
 export default {
-    PLATFORM,
-    PROJECTKEY,
-    NODE_ENV,
-    BASEURL,
-    TOKEN_KEY: 'token',
-    LOGIN_PAGE_NAME: 'login',
-    WEB_SESSION: 'userInfo',
-    PUBLIC_PAGE: ['/login', '/401', '/500', '/error_404'],
+    PLATFORM,// 平台名称(小写)
+    PROJECTKEY,// 系统名称(小写)
+    NODE_ENV,// 环境变量
+    BASEURL,// API接口
+    TOKEN_KEY: 'token',// 权限验证key
+    LOGIN_PAGE_NAME: 'login',// 登录页
+    WEB_SESSION: 'userInfo',// 用户信息
+    PUBLIC_PAGE: ['/login', '/401', '/500', '/error_404'],// 公共页
     PLATFORM_LOGIN: ['GST'],// 产品登录类型(默认为不包含登录页)
 }

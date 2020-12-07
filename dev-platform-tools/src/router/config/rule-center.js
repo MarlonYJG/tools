@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-07-25 19:28:33
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:34:43
+ * @LastEditTime: 2020-11-20 15:18:49
  * @Description: 规则中心
  */
 
@@ -31,7 +31,7 @@ export default [
         path: '/ruleCenter',
         name: 'ruleCenter',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/ruleCenter/engine',
         meta: {

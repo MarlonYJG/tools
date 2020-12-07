@@ -2,28 +2,35 @@
  * @Author: Marlon
  * @Date: 2020-02-19 10:06:12
  * @LastEditors: Marlon
- * @LastEditTime: 2020-09-27 11:00:37
+ * @LastEditTime: 2020-11-09 09:28:58
  * @Description: 表单弹出框
  -->
 <template>
   <el-dialog
     :title="FDTitle"
     :visible.sync="dialogTableVisible"
-    :width="FDWidth===''? null:`${FDWidth}px`"
+    :width="FDWidth === '' ? null : `${FDWidth}px`"
     @close="close"
     class="form_dialog"
     :close-on-click-modal="false"
   >
-    <el-form v-if="FDVisible" :model="form" :rules="rules" :ref="FDId" class="TDForm" size="medium">
+    <el-form
+      v-if="FDVisible"
+      :model="form"
+      :rules="rules"
+      :ref="FDId"
+      class="TDForm"
+      size="medium"
+    >
       <template v-for="(item, index) in FDForm">
         <!-- 输入框 -->
         <el-form-item
-          v-if="item.type==='input' && !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'input' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          :required="rulesKey.includes(item.key) ? true :null"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <el-input
             :disabled="FDIsLook || item.disabled"
@@ -36,23 +43,26 @@
         </el-form-item>
         <!-- 下拉选择 -->
         <el-form-item
-          v-if="item.type==='select' && !item.show "
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'select' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          :required="rulesKey.includes(item.key) ? true :null"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <el-select
             :disabled="FDIsLook || item.disabled"
             filterable
             v-model="form[item.key]"
             :placeholder="item.placeholder"
-            :multiple="(item.multiple && item.multiple.show) ? true:false"
-            :collapse-tags="(item.multiple && item.multiple.collapseTags) ? true:false"
+            :multiple="item.multiple && item.multiple.show ? true : false"
+            :collapse-tags="
+              item.multiple && item.multiple.collapseTags ? true : false
+            "
             :style="`width:${Number(item.width)}px`"
             :clearable="item.clearable || null"
-            @change="handlerSelect(item,$event)"
+            @change="handlerSelect(item, $event)"
+            @visible-change="visibleChange(item, $event)"
           >
             <el-option
               v-for="(items, i) in item.option"
@@ -64,35 +74,37 @@
         </el-form-item>
         <!-- 下拉选择树 -->
         <el-form-item
-          v-if="item.type==='select-tree' && !item.show "
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'select-tree' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          :required="rulesKey.includes(item.key) ? true :null"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <TreeSelect
             :disabled="FDIsLook || item.disabled"
             filterable
             v-model="form[item.key]"
             :placeholder="item.placeholder"
-            :multiple="(item.multiple && item.multiple.show) ? true:false"
-            :collapse-tags="(item.multiple && item.multiple.collapseTags) ? true:false"
+            :multiple="item.multiple && item.multiple.show ? true : false"
+            :collapse-tags="
+              item.multiple && item.multiple.collapseTags ? true : false
+            "
             :style="`width:${Number(item.width)}px`"
             :clearable="item.clearable || null"
-            @deselect="handlerSelect(item,$event)"
+            @deselect="handlerSelect(item, $event)"
             :options="item.option"
             search-nested
           ></TreeSelect>
         </el-form-item>
         <!-- 级联菜单 -->
         <el-form-item
-          v-if="item.type==='cascader' && !item.show "
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'cascader' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          :required="rulesKey.includes(item.key) ? true :null"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <el-cascader
             :disabled="FDIsLook || item.disabled"
@@ -114,18 +126,21 @@
         </el-form-item>
         <!-- 文本域 -->
         <el-form-item
-          v-if="item.type==='textarea' && !item.show "
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'textarea' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          :required="rulesKey.includes(item.key) ? true :null"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <el-input
             :disabled="FDIsLook || item.disabled"
             :style="`width:${Number(item.width)}px`"
             type="textarea"
-            :autosize="{ minRows: item.autosize.min, maxRows: item.autosize.min}"
+            :autosize="{
+              minRows: item.autosize.min,
+              maxRows: item.autosize.min,
+            }"
             :placeholder="item.placeholder"
             v-model="form[item.key]"
             :show-word-limit="!!item.width"
@@ -133,27 +148,29 @@
         </el-form-item>
         <!-- 多段类型(默认2段) -->
         <el-form-item
-          v-if="(item.type==='input-2')&&(item.inputItem.length)&& !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'input-2' && item.inputItem.length && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          :required="rulesKey.includes(item.key) ? true :null"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <ul class="input-n">
             <li v-for="(items, i) in item.inputItem" :key="i">
               <el-tooltip
-                v-if="!!(items.tip)"
+                v-if="!!items.tip"
                 class="item"
                 effect="dark"
                 :content="items.tip"
                 placement="top"
               >
-                <label for v-if="items.label">{{items.label}}：</label>
+                <label for v-if="items.label">{{ items.label }}：</label>
               </el-tooltip>
-              <label v-else for>{{items.label?`${items.label}：`:''}}</label>
+              <label v-else for>{{
+                items.label ? `${items.label}：` : ""
+              }}</label>
               <el-input-number
-                v-if="items.input.type==='number'"
+                v-if="items.input.type === 'number'"
                 :style="`width:${Number(items.input.width)}px`"
                 controls-position="right"
                 :disabled="items.input.disabled || false"
@@ -161,13 +178,19 @@
               ></el-input-number>
 
               <el-select
-                v-else-if="items.input.type==='select'"
+                v-else-if="items.input.type === 'select'"
                 :disabled="FDIsLook || item.disabled"
                 filterable
                 v-model="form[items.key]"
                 :placeholder="items.input.placeholder"
-                :multiple="items.input.multiple ? items.input.multiple.show:null"
-                :collapse-tags="items.input.multiple ? items.input.multiple.collapseTags:null"
+                :multiple="
+                  items.input.multiple ? items.input.multiple.show : null
+                "
+                :collapse-tags="
+                  items.input.multiple
+                    ? items.input.multiple.collapseTags
+                    : null
+                "
                 :style="`width:${Number(items.input.width)}px`"
               >
                 <el-option
@@ -190,13 +213,13 @@
         </el-form-item>
         <!-- 单选 -->
         <el-form-item
-          v-if="item.type==='radio' && !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'radio' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          style="text-align: center;"
-          :required="rulesKey.includes(item.key) ? true :null"
+          style="text-align: center"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <el-radio-group v-model="form[item.key]">
             <el-radio
@@ -204,18 +227,19 @@
               :disabled="FDIsLook || item.disabled"
               :key="i"
               :label="items.value"
-            >{{items.label}}</el-radio>
+              >{{ items.label }}</el-radio
+            >
           </el-radio-group>
         </el-form-item>
         <!-- 开关 -->
         <el-form-item
-          v-if="item.type==='switch' && !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'switch' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          style="text-align: left;"
-          :required="rulesKey.includes(item.key) ? true :null"
+          style="text-align: left"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <el-switch
             v-model="form[item.key]"
@@ -226,13 +250,13 @@
         </el-form-item>
         <!-- 复选框 -->
         <el-form-item
-          v-if="item.type==='checkbox' && !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'checkbox' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          style="text-align: center;"
-          :required="rulesKey.includes(item.key) ? true :null"
+          style="text-align: center"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <template v-for="(ite, index) in item.option">
             <el-checkbox
@@ -246,22 +270,22 @@
         </el-form-item>
         <!-- 区域类型 -->
         <el-form-item
-          v-if="item.type==='area-type' && !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'area-type' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          style="text-align: center;"
-          :required="rulesKey.includes(item.key) ? true :null"
+          style="text-align: center"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
           <div class="area-type">
             <el-form-item
               v-for="(items, i) in item.list"
               :key="i"
               :label-width="`${items.label.width}px`"
-              :label="!!(items.label.name)?`${items.label.name}：`:''"
+              :label="!!items.label.name ? `${items.label.name}：` : ''"
               :prop="items.key || null"
-              :required="rulesKey.includes(item.key) ? true :null"
+              :required="rulesKey.includes(item.key) ? true : null"
             >
               <el-select
                 v-model="form[item.key]"
@@ -293,47 +317,54 @@
               <i
                 v-if="!FDIsLook"
                 class="el-icon-circle-close area-type-icon-del"
-                @click="areaEdit('del',item.list,i)"
+                @click="areaEdit('del', item.list, i)"
               ></i>
               <i
                 class="el-icon-circle-plus-outline area-type-icon-add"
-                v-if="(!FDIsLook) && ((item.list.length-1) ===i)"
-                @click="areaEdit('add',item.list,i)"
+                v-if="!FDIsLook && item.list.length - 1 === i"
+                @click="areaEdit('add', item.list, i)"
               ></i>
             </el-form-item>
           </div>
         </el-form-item>
         <!-- 文件上传 -->
         <el-form-item
-          v-if="item.type==='upload' && !item.show"
-          :label="!!(item.label.name)?`${item.label.name}：`:''"
+          v-if="item.type === 'upload' && !item.show"
+          :label="!!item.label.name ? `${item.label.name}：` : ''"
           :label-width="`${item.label.width}px`"
           :key="index"
           :prop="item.key || null"
-          style="text-align: center;"
-          :required="rulesKey.includes(item.key) ? true :null"
+          style="text-align: center"
+          :required="rulesKey.includes(item.key) ? true : null"
         >
-          <div style="text-align: left;">
+          <div style="text-align: left">
             <el-upload
               ref="upload"
+              accept=".xlsx"
               :action="item.url"
               :on-preview="handlePreview"
               :on-success="handleSuccess"
               :on-error="handleError"
               :on-remove="handleRemove"
-              :file-list="form[item.key]"
+              :before-upload="beforeUpload"
+              :on-change="handleChangeFiles"
+              :file-list="filesList"
               multiple
               :auto-upload="false"
               :data="item.data || null"
               :name="item.name || 'file'"
+              :limit="item.limit || null"
             >
-              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <el-button slot="trigger" size="small" type="primary"
+                >选取文件</el-button
+              >
               <el-button
-                style="margin-left: 10px;"
+                style="margin-left: 10px"
                 size="small"
                 type="success"
                 @click="submitUpload"
-              >上传到服务器</el-button>
+                >上传到服务器</el-button
+              >
               <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
             </el-upload>
           </div>
@@ -341,26 +372,28 @@
       </template>
     </el-form>
     <!-- 底部信息 -->
-    <div class="foot-info">{{FDFootInfo}}</div>
+    <div class="foot-info">{{ FDFootInfo }}</div>
     <div slot="footer" class="dialog-footer" v-if="!FDIsLook">
       <template v-for="(item, index) in FDFoot.button">
         <!-- 默认确定按钮 -->
         <Debounce time="1500" :key="index">
           <el-button
             size="medium"
-            v-if="item.type==='ok'"
+            v-if="item.type === 'ok'"
             type="primary"
             @click="FDEdit(item)"
-          >{{item.label}}</el-button>
+            >{{ item.label }}</el-button
+          >
         </Debounce>
         <!-- 非默认按钮类 -->
         <Debounce time="1500" :key="index">
           <el-button
             size="medium"
             :key="index"
-            v-if="item.type==='button'"
+            v-if="item.type === 'button'"
             @click="FDEdit(item)"
-          >{{item.label}}</el-button>
+            >{{ item.label }}</el-button
+          >
         </Debounce>
       </template>
     </div>
@@ -485,6 +518,7 @@ export default {
       rulesKey: [],
       cascaderOption: [], // 多级菜单下拉选择
       isRunHandleChange: false,
+      filesList: [], // 上传的文件列表
     };
   },
   watch: {
@@ -545,6 +579,10 @@ export default {
     handlerSelect(item, val) {
       this.$emit("FDhandlerSelect", { item, val, form: this.form });
     },
+    // 下拉框出现/隐藏时触发
+    visibleChange(item, isTrue) {
+      this.$emit("visibleChange", item, isTrue, this.form);
+    },
     // 级联下拉选择——关联
     handleChange(item) {
       this.isRunHandleChange = true;
@@ -582,10 +620,16 @@ export default {
       if (this.FDId && this.$refs[this.FDId]) {
         this.$refs[this.FDId].resetFields();
       }
-      this.$emit("editBtnCb", {
-        label: "close",
-        close: this.dialogTableVisible,
-      });
+      // 清空上传文件列表
+      this.filesList = [];
+      this.$emit(
+        "editBtnCb",
+        {
+          label: "close",
+          close: this.dialogTableVisible,
+        },
+        this.FDId
+      );
     },
     // 区域类型操作(自定义)
     areaEdit(type, list, i) {
@@ -639,6 +683,40 @@ export default {
     handlePreview(file) {
       this.$emit("FDUploadFiles", { type: "preview", file });
     },
+    beforeUpload(file) {
+      if (
+        file.type !==
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        return false;
+      }
+      return true;
+    },
+    // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
+    handleChangeFiles(file, fileList) {
+      // 上传限制1个文件，如果选择多个文件，则只获取最后选择的一个
+      let uploadFileOne = "";
+      this.FDForm.forEach((item) => {
+        if (item.type === "upload") {
+          uploadFileOne = item;
+        }
+      });
+      if (uploadFileOne.limitOne && uploadFileOne.limitOne == 1) {
+        this.filesList = [fileList.pop()];
+      }
+      // 上传文件限制为Excel
+      if (
+        file.raw.type !==
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        this.$message({
+          message: "请上传Excel文件",
+          type: "warning",
+        });
+        this.filesList = [];
+        return false;
+      }
+    },
     handleSuccess(response, file, fileList) {
       this.$message({
         message: `${response.message}`,
@@ -663,7 +741,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/css/platform/gst/config.scss";
+@import "~@/assets/css/config.scss";
 .form_dialog {
   // 多段input
   .TDForm {

@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-07-10 09:49:45
  * @LastEditors: Marlon
- * @LastEditTime: 2020-10-12 15:11:04
+ * @LastEditTime: 2020-12-07 09:50:31
  * @Description: 登录-版本1
 --> 
 <template>
@@ -22,7 +22,11 @@
             label-width="50px"
             class="gb-login-info"
           >
-            <el-form-item label="用户名" prop="userName" style="margin-bottom: 20px;">
+            <el-form-item
+              label="用户名"
+              prop="userName"
+              style="margin-bottom: 20px"
+            >
               <el-input
                 v-model="ruleForm.userName"
                 placeholder="请输入用户名"
@@ -44,8 +48,9 @@
               :loading="loadBut"
               type="primary"
               @click="submitForm('ruleForm')"
-              style="width:100%;"
-            >立即登录</el-button>
+              style="width: 100%"
+              >立即登录</el-button
+            >
           </el-form>
         </div>
         <p class="gb-card-msg">© 广联达科技股份有限公司 版权所有</p>
@@ -61,6 +66,7 @@ import { openUrl } from "utils/jump";
 import API from "api";
 import { ResDatas } from "utils/res-format";
 import system from "@/config/system.config.js";
+import { PRODUCT } from "@/config";
 
 const { BASEURL, LOGIN_PAGE_NAME, NODE_ENV, WEB_SESSION, PUBLIC_PAGE } = system;
 let webSession = new Session();
@@ -140,7 +146,9 @@ export default {
                       menus: { children },
                     } = res.data;
                     let systemList = children[0].children;
-                    let localPath = localStorage.getItem("catchPath");
+                    let localPath = localStorage.getItem(
+                      `catchPath_${PRODUCT}`
+                    );
                     if (localPath && localPath.indexOf("#") !== -1) {
                       if (
                         !PUBLIC_PAGE.includes(localPath.split("#")[1]) &&

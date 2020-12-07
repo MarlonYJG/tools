@@ -2,7 +2,7 @@
  * @Author: 赵鹏鹏
  * @Date: 2020-05-17 21:54:13
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:34:09
+ * @LastEditTime: 2020-12-04 15:45:41
  * @Description: 指标中心
  */
 import system from '@/config/system.config.js'
@@ -53,7 +53,7 @@ export default [
         path: '/indicator',
         name: 'indicator',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/indicator/construct',
         meta: {

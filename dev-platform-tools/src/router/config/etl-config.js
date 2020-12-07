@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-04-16 09:40:32
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:34:01
+ * @LastEditTime: 2020-12-04 15:43:28
  * @Description: 旧版-ETL——废弃
  */ 
 // import Vue from 'vue'
@@ -58,7 +58,7 @@ export default [
       name: 'Layout1',
       redirect: '/menuNav1/dataInfo',
       component: resolve => {
-        require([`@/layout/${PLATFORM}`], resolve);
+        require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
     },
       meta: {
         title: '数据ETL配置'
@@ -143,7 +143,7 @@ export default [
       name: 'Layout2',
       redirect: '/menuNav2/timeTask',
       component: resolve => {
-        require([`@/layout/${PLATFORM}`], resolve);
+        require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
     },
       meta: {
         title: '作业调度管理'
@@ -171,7 +171,7 @@ export default [
       name: 'Layout3',
       redirect: '/menuNav3/index',
       component: resolve => {
-        require([`@/layout/${PLATFORM}`], resolve);
+        require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
     },
       meta: {
         title: '配置数据管理'

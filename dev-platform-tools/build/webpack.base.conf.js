@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-18 16:21:32
  * @LastEditors: Marlon
- * @LastEditTime: 2020-08-13 09:47:01
+ * @LastEditTime: 2020-12-07 08:54:21
  * @Description: 
  */
 'use strict'
@@ -15,11 +15,10 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: process.env.NODE_ENV ? `./src/main-config/${process.argv[2]}.js` : './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,

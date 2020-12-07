@@ -1,6 +1,5 @@
 import html2canvas from "html2canvas";
 import api from 'api'
-import { getCurrMenuId } from "./filters";
 // 导出图片
 let downloadPNG = idName => {
   let mycanvas = document.getElementById(idName);
@@ -39,23 +38,23 @@ let exportExcel = (data, url, fileName) => {
   })
 }
 // 获取"?"符后的数据
-let getRequest = () => {  
-  let url = '?'+location.hash.split('?')[1]; //获取url中"?"符后的字串
-  let theRequest = {};  
-  if (url.indexOf("?") != -1) {  
-     let str = url.substr(1);  
-     let strs = str.split("&");  
-     for(let i = 0; i < strs.length; i ++) {  
-        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);  
-     }  
-  }
-  return theRequest;  
+let getRequest = () => {
+  let url = '?' + location.hash.split('?')[1]; //获取url中"?"符后的字串
+  let theRequest = {};
+  if (url.indexOf("?") != -1) {
+    let str = url.substr(1);
+    let strs = str.split("&");
+    for (let i = 0; i < strs.length; i++) {
+      theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+    }
+  }
+  return theRequest;
 }
 // 交易天网-跳转历史交易回溯
 let jumpHistoryAll = async (menu, queryStr, vm) => {
   // gc: 工程建设 zf: 政府采购 td: 土地交易回溯 kyq: 矿业权交易回溯 gycq: 国有产权交易回溯
   let pathAdress, currMenuid;
-  switch(menu) {
+  switch (menu) {
     case "gc":
       pathAdress = "/discovery/history/jsgcHistoryDetails";
       currMenuid = "gcHistoryRecall";
@@ -78,7 +77,6 @@ let jumpHistoryAll = async (menu, queryStr, vm) => {
         path: pathAdress,
         query: {
           itemInfo: JSON.stringify(pathInfo),
-          // currIndex: getCurrMenuId(currMenuid)
         }
       });
       window.open(routeData.href, "_blank");
@@ -89,7 +87,7 @@ let jumpHistoryAll = async (menu, queryStr, vm) => {
 let jumpOneStopCardAll = (legalCode, roleCode, vm) => {
   // 01 招标人 02 招标代理 03 投标人，中标人  04 采购人  05 采购代理 06 供应商，中标人 07 08 09 10 11 12 13
   let menuid;
-  switch(roleCode){
+  switch (roleCode) {
     case "01":
       menuid = "zbrCard";
       break;
@@ -116,11 +114,10 @@ let jumpOneStopCardAll = (legalCode, roleCode, vm) => {
     query: {
       itemInfo: JSON.stringify(
         {
-          legalCode, 
+          legalCode,
           roleCode
         }
       ),
-      // currIndex: getCurrMenuId(menuid)
     }
   });
   window.open(routeData.href, "_blank");
@@ -177,6 +174,16 @@ let formatterMoney = (params = null) => {
   return 0
 }
 
+// 获取用户信息
+const getUserInfo = () => {
+  let sessionUserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  let userInfo = {};
+  if (sessionUserInfo && sessionUserInfo.userInfo && sessionUserInfo.userInfo.user) {
+    userInfo = sessionUserInfo.userInfo.user;
+  }
+  return userInfo
+}
+
 export {
   getCityName,
   downloadPNG,
@@ -191,5 +198,6 @@ export {
   getRequest,
   jumpHistoryAll,
   jumpOneStopCardAll,
-  formatterMoney
+  formatterMoney,
+  getUserInfo
 }

@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-03-02 21:39:37
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-03 16:33:41
+ * @LastEditTime: 2020-12-04 15:45:30
  * @Description: 数据质量管理
  */
 
@@ -33,7 +33,7 @@ export default [
         path: '/dataQuality',
         name: 'dataQuality',
         component: resolve => {
-            require([`@/layout/${PLATFORM}`], resolve);
+            require([`@/layout/${PLATFORM.toLowerCase()}`], resolve);
         },
         redirect: '/dataQuality/taskManage',
         meta: {
