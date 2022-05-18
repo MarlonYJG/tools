@@ -126,6 +126,14 @@ module.exports = {
         }
       },
       /* ********************************** 产品 ************************************** */
+      // 标道
+      '/bd': {
+        target: 'http://10.0.204.111',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/bd': '/bd'
+        },
+      },
     },
 
     // Various Dev Server settings

@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-03-14 11:38:51
  * @LastEditors: Marlon
- * @LastEditTime: 2020-12-04 11:18:21
+ * @LastEditTime: 2020-12-14 14:30:30
  * @Description: 临时数据库
  */
 const cloneRuleForm = {
@@ -21,6 +21,19 @@ const cloneRuleForm = {
 };
 
 const state = {
+    activeIndex: '',
+    systemList: [], // 系统列表
+    menuList: [], // 菜单列表
+    breadcrumbList: [], // 面包屑
+    userInfo: {}, // 用户信息
+    data: {// 拓扑图-工具
+        scale: 1,
+        lineName: 'curve',
+        fromArrowType: '',
+        toArrowType: 'triangleSolid',
+        locked: 0
+    },
+
     // 我的订阅
     dy_dialogInfo: {
         dialogVisible: false, // 弹框显示

@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-18 16:21:32
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-17 10:00:09
+ * @LastEditTime: 2020-12-14 17:05:37
  * @Description: header
  -->
  <template>
@@ -149,6 +149,7 @@ export default {
       this.$emit("Htarget", !this.isCollapse);
     },
     handleSelect(key, keyPath) {
+      console.log(key, this.systemList, this.activeIndex);
       let systemName = "";
       this.systemList.forEach((item) => {
         if (key === item.url) {
@@ -159,6 +160,8 @@ export default {
       this.$router.push({
         path: key,
       });
+
+      this.$store.commit("ACTIVE_HEADER", { activeHeader: `#${key}` });
     },
     handleUser(isTrue) {
       this.showUser = isTrue;
@@ -166,6 +169,7 @@ export default {
   },
   mounted() {
     this.getSystemFn();
+    this.$store.commit("ACTIVE_HEADER", { activeHeader: location.hash });
   },
 };
 </script>
@@ -315,7 +319,7 @@ export default {
         cursor: pointer;
         text-align: left;
         &:hover {
-          background: #3175CB;
+          background: #3175cb;
           color: #fff;
         }
         .pwd_icon {

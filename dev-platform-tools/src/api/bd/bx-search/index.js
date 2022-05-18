@@ -1,3 +1,10 @@
+/*
+ * @Author: zhangxd-i
+ * @Date: 2020-11-11 10:43:45
+ * @LastEditTime: 2020-11-25 10:25:29
+ * @LastEditors: zhangxd-i
+ * @Description: 标讯 查询
+ */
 import service from 'utils/request'
 const BaseUrl = '/bd'
 export default {
@@ -68,7 +75,15 @@ export default {
   // 标讯详情--收藏
   actionCollect(data) {
     return service({
-      url: BaseUrl + '/bid-doc-info/actionCollect ',
+      url: BaseUrl + '/bid-doc-info/actionCollect',
+      method: 'post',
+      data
+    })
+  },
+  // 指标查询 -- 搜索
+  indexSearch(data) {
+    return service({
+      url: BaseUrl + '/indexSearch/indexSearch',
       method: 'post',
       data
     })

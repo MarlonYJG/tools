@@ -28,7 +28,7 @@
  * @Author: Marlon
  * @Date: 2020-02-18 09:37:59
  * @LastEditors: Marlon
- * @LastEditTime: 2020-12-07 09:18:19
+ * @LastEditTime: 2020-12-14 08:43:16
  * @Description: 
  */
 // The Vue build version to load with the `import` command
@@ -67,7 +67,7 @@ if ('GST' == PRODUCT) {
   require('./assets/css/platform/bd/element-ui.scss')
   require('./assets/css/platform/bd/globol-custom.scss')
 } else if ('SHBI' == PRODUCT) {
-  
+
 }
 
 Vue.use(require('vue-wechat-title'))

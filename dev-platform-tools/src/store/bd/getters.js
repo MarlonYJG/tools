@@ -2,9 +2,25 @@
  * @Author: Marlon
  * @Date: 2020-03-14 11:43:39
  * @LastEditors: Marlon
- * @LastEditTime: 2020-12-04 11:18:50
+ * @LastEditTime: 2020-12-14 14:32:01
  * @Description: getters
  */
+
+// 系统列表
+export const systemList = state => state.systemList;
+// 菜单列表
+export const menuList = state => state.menuList;
+// 面包屑
+export const breadcrumbList = state => state.breadcrumbList;
+// 用户信息
+export const userInfo = state => {
+    return state.userInfo;
+}
+// 顶部激活的菜单
+export const activeHeader = state => {
+    return state.activeIndex;
+}
+
 export const dialogVisible_ter = state => state.dy_dialogInfo.dialogVisible; // 订阅-弹框控制
 export const dialogTitle_ter = state => state.dy_dialogInfo.dialogTitle; // 订阅-弹框header信息
 export const ruleForm_ter = state => state.dy_dialogInfo.ruleForm; // 订阅-弹框信息

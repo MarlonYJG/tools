@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-05-17 21:54:13
  * @LastEditors: Marlon
- * @LastEditTime: 2020-12-07 09:22:33
+ * @LastEditTime: 2020-12-14 16:14:12
  * @Description: 标道
  */
 
@@ -12,7 +12,6 @@ import Home from '@/views/bd/home/home'
 import StandardQuery from '@/views/bd/bx-search'
 import IndexQuery from '@/views/bd/index-query'
 import bxQueryDetails from '@/views/bd/bx-search/details'
-console.log(bxQueryDetails)
 
 /* 个人中心 */
 import indexPersonal from '@/views/bd/index-personal'; // 个人中心

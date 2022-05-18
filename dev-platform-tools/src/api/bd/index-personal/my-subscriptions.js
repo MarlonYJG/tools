@@ -2,7 +2,7 @@
  * @Author: 赵鹏鹏
  * @Date: 2020-11-12 09:55:52
  * @LastEditors: 赵鹏鹏
- * @LastEditTime: 2020-11-13 12:27:27
+ * @LastEditTime: 2020-11-18 14:15:49
  * @Description: 我的订阅
  */
 import service from 'utils/request';
@@ -49,4 +49,20 @@ export default {
       data
     })
   },
+  // 修改订阅信息
+  subscribeGroupUpdate(data) {
+    return service({
+      url: BaseUrl + '/subscribeGroup/update',
+      method: 'post',
+      data
+    })
+  },
+  // 根据订阅组获取标讯查询列表
+  standardGetStandardTableBySubscribe(data) {
+    return service({
+      url: BaseUrl + '/standard/getStandardTableBySubscribe',
+      method: 'post',
+      data
+    })
+  }
 }

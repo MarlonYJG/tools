@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-11-03 10:08:25
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-12 18:10:58
+ * @LastEditTime: 2020-12-14 16:22:43
  * @Description: 公共接口——系统级别
  */
 
@@ -11,7 +11,7 @@ import system from '@/config/system.config.js'
 
 const { NODE_ENV, PROJECTKEY, } = system
 let MenuUrl = '';
-let SystemUrl = './../../static/menu/index.json';
+let SystemUrl = './../../static/menu/index-bd.json';
 let BaseLogin = ''
 
 if (!NODE_ENV) {

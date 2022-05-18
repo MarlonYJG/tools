@@ -2,17 +2,81 @@
  * @Author: Marlon
  * @Date: 2020-03-14 11:42:12
  * @LastEditors: Marlon
- * @LastEditTime: 2020-12-04 11:19:02
+ * @LastEditTime: 2020-12-14 14:34:10
  * @Description: actions
  */
 import * as types from "./mutation-types";
 import api from "api";
+import system from '@/config/system.config.js'
+
+const { BASEURL, LOGIN_PAGE_NAME } = system
+
+
+// 系统列表
+export const getSystemList = ({ commit }, val) => {
+  api.__publicGetStytemList().then(res => {
+    let resVal = []
+    if (res && res.data && res.data.stytemList) {
+      // 获取系统地址
+      function loop(arr) {
+        arr.forEach(item => {
+          item['icon'] = item.icon || item.iconCssClass || ''
+          if (item.url && item.url.toString().indexOf('/') !== -1) {
+            item.url = BASEURL + item.url
+          }
+          if (item.children && item.children.length) {
+            loop(item.children)
+          }
+        });
+      }
+      loop(res.data.stytemList)
+      resVal = res.data.stytemList;
+    }
+    commit(types.GET_SYSTEM_LIST, resVal)
+  })
+}
+// 菜单列表
+export const getMenuList = ({ commit }, val) => {
+  api.__publicGetMenuList().then(res => {
+    let resVal = []
+    if (res && res.data && res.data.subMenu) {
+      resVal = res.data;
+    }
+    commit(types.GET_MENU_LIST, resVal)
+  })
+}
+// 面包屑
+export const getBreadcrumbList = ({ commit }, val) => {
+  commit(types.SET_BREADCRUMB_LIST, val)
+}
+
+// 获取用户信息
+export const getUserInfo = ({ commit }) => {
+  return new Promise((resolve, reject) => {
+    api.__publicUserInfo().then(res => {
+      if (res.data.code == 0) {
+        let userRes = {
+          userInfo: {
+            user: res.data.data.user
+          }
+        } || null
+        commit(types.GET_USER_INFO, userRes)
+      }
+      resolve(res.data || null)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+
+
 
 // 所在省市
 export const getprovinceCityList = ({ commit }) => {
   api.getGeographicalDivisionTree().then(res => {
     if (res.data.code == 0) {
-      let { data, type} = res.data.data;
+      let { data, type } = res.data.data;
       if (type == "tree") {
 
         // TODO
@@ -37,7 +101,7 @@ export const getprovinceCityList = ({ commit }) => {
               },
               "children": []
             }]
-          }, 
+          },
           {
             "id": "120000",
             "pid": "1",
@@ -58,7 +122,7 @@ export const getprovinceCityList = ({ commit }) => {
               },
               "children": []
             }]
-          }, 
+          },
           {
             "id": "130000",
             "pid": "1",
@@ -79,7 +143,7 @@ export const getprovinceCityList = ({ commit }) => {
                   "parentId": "130000"
                 },
                 "children": []
-              }, 
+              },
               {
                 "id": "130200",
                 "pid": "130000",
@@ -90,7 +154,7 @@ export const getprovinceCityList = ({ commit }) => {
                   "parentId": "130000"
                 },
                 "children": []
-              }, 
+              },
               {
                 "id": "130300",
                 "pid": "130000",

@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-11-03 10:49:08
  * @LastEditors: Marlon
- * @LastEditTime: 2020-11-16 17:09:17
+ * @LastEditTime: 2020-12-14 14:01:20
  * @Description: 登录-标道
 -->
 <template>
@@ -191,8 +191,8 @@ export default {
             let Res = res.data.data;
             setToken(Res.token);
             sessionStorage.setItem("userInfo", JSON.stringify(res.data.data));
-            if (localStorage.getItem("catchPath_bd")) {
-              location.href = localStorage.getItem("catchPath_bd");
+            if (localStorage.getItem("catchPath_BD")) {
+              location.href = localStorage.getItem("catchPath_BD");
             } else {
               this.$router.push({
                 path: "/bd/home",
@@ -214,7 +214,6 @@ export default {
     },
   },
   mounted() {
-    console.log(stytemList);
   },
 };
 </script>

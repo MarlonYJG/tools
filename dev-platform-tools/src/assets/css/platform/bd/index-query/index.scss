@@ -1,0 +1,30 @@
+.index-query {
+  width: 1200px;
+  margin: 10px auto;
+  padding: 20px;
+  border: 1px solid #D2D2D2;
+  box-shadow: 0px 1px 8px 1px rgba(109, 109, 109, 0.2);
+  background: #FFFFFF;
+  font-size: 14px;
+}
+.zb-item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: none;
+    .zb-query {
+      padding: 7px 12px;
+      color: #FFFFFF;
+      text-align: center;
+      cursor: pointer;
+      background: #1F5191;
+    }
+}
+.no-data-content {
+  h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #555555;
+  }
+  
+}

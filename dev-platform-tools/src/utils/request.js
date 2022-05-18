@@ -2,7 +2,7 @@
  * @Author: Marlon
  * @Date: 2020-02-21 15:15:54
  * @LastEditors: Marlon
- * @LastEditTime: 2020-08-25 10:09:42
+ * @LastEditTime: 2020-12-14 17:10:13
  * @Description:  HTTP 监控台
  */
 import axios from "axios";
@@ -13,14 +13,18 @@ import { openUrl } from "utils/jump";
 // } from '@/utils/store'
 import { Notification } from "element-gui";
 import SystemConf from '@/config/system.config.js'
-import { setToken } from 'utils/lib'
+import { setToken, getToken } from 'utils/lib'
+import { PRODUCT } from '@/config'
 
 let service = axios.create({
   baseURL: SystemConf.BASEURL,
+  withCredentials: true // 允许携带cookie
 });
 
 /****** request拦截器==>对请求参数做处理 ******/
 service.interceptors.request.use(config => {
+  config.headers.Authorization = getToken() || ''
+
   if (config.method.toLowerCase() === 'get') {
     config.params = {
       ...config.data

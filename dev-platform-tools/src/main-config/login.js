@@ -28,7 +28,7 @@
  * @Author: Marlon
  * @Date: 2020-02-18 09:37:59
  * @LastEditors: Marlon
- * @LastEditTime: 2020-12-07 08:56:03
+ * @LastEditTime: 2020-12-14 17:14:05
  * @Description: 
  */
 // The Vue build version to load with the `import` command
@@ -56,9 +56,6 @@ import '../assets/css/base.scss';
 import Axios from 'utils/axios.js';
 import store from "../store";
 
-// 各产品的静态资源
-// const PStatic = PRODUCT
-// require(`./main-config/${PStatic}`)
 
 Vue.use(require('vue-wechat-title'))
 Vue.use(ElementUI)
