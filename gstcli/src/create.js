@@ -7,9 +7,15 @@ const ora = require('ora')
 const download = require('download-git-repo')
 const chalk = require('chalk')
 const fs = require('fs')
+// const generate = require('../lib/generate')
 
 
-const { downloadHubApp, createWorkSpace, log, prompt, creatPro } = require('./utils')
+const { updateJsonFile, templateCopy, copyDir, downloadHubApp, isExistGst, downloadTemplate, createWorkSpace, log, prompt, creatPro } = require('./utils')
+
+function resolve(dir) {
+    return path.join(__dirname, '..', dir)
+}
+// console.log(__dirname);
 
 
 // 创建工作空间
@@ -46,6 +52,8 @@ exports.createWrokspace = async function (...args) {
     }
     let workespaceName = args[1];
     let wk = await createWorkSpace(workespaceName);
+    // 进入.gst文件并下载库
+    await downloadHubApp('组件库(dataplatform)', 'https://geek.glodon.com/scm/gst/gst-dataplatform.git', `${process.cwd()}/${workespaceName}/.gst`, 'master')
     if (wk) {
         let repo_choices = [];
         for (const key in repositoriesMap) {
@@ -69,8 +77,6 @@ exports.createWrokspace = async function (...args) {
             .then(async (answer) => {
                 const { repositories } = answer;
                 if (!repositories.length) process.exit();
-
-                // console.log(repositories);
                 let repositories_inq = [];
                 repositories.forEach(item => {
                     repositories_inq.push({
@@ -97,7 +103,6 @@ exports.createWrokspace = async function (...args) {
                 log(chalk.red(`  ${error}`))
             });
     }
-
 }
 
 // 创建项目
@@ -108,8 +113,23 @@ exports.createProject = async function (...args) {
             type: 'list',
             name: 'frame',
             message: '请选择项目模板:',
-            default: '',
-            choices: ['vue2', 'vue3', 'react', 'ts']
+            default: 'vc2',
+            choices: [{
+                name: 'vue-cli@2.x',
+                value: 'vc2'
+            }, {
+                name: 'vue-cli@3.x + vue2',
+                value: 'vc3_v2'
+            }, {
+                name: 'vue-cli@3.x + vue3',
+                value: 'vc3_v3'
+            }, {
+                name: 'React',
+                value: 'react'
+            }, {
+                name: 'Typescript',
+                value: 'typescript'
+            }]
         },
         {
             type: 'input',
@@ -125,11 +145,45 @@ exports.createProject = async function (...args) {
     let projectName = args[1];
     await creatPro(projectName);
     // 选择模板
-    let answerList = await prompt(promptList)
-    console.log(answerList, '====');
-    // 下载模板
+    let { frame, description, author } = await prompt(promptList)
+    let tmp_url = ''
+    switch (frame) {
+        case 'vc2':
+            tmp_url = 'templates/vuejs/vue-cli@2';
+            break;
+        case 'vc3_v2':
+            tmp_url = 'templates/vuejs/vue-cli@3-v2';
+            break;
+        case 'vc3_v3':
+            tmp_url = 'templates/vuejs/vue-cli@3-v3';
+            break;
+        case 'react':
+            tmp_url = 'templates/reactjs/react';
+            break;
+        case 'typescript':
+            log(chalk.cyan('  正在开发中...'))
+            break;
+        default:
+            break;
+    }
 
-    // 修改json文件
+    // 下载模板
+    if (tmp_url) {
+        await templateCopy(projectName, path.join(__dirname, '..', tmp_url), `${process.cwd()}/${projectName}`)
+        // 修改配置文件
+        // .md
+        // package.json
+        // index.html
+
+
+
+
+
+
+
+
+
+    }
 
 
 

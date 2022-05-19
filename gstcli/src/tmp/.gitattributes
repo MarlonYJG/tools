@@ -1,3 +1,0 @@
-config/* merge=ours
-static/nginx-config/* merge=ours
-src/views/login/* merge=ours

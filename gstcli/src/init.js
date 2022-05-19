@@ -1,69 +1,159 @@
 #!/usr/bin/env node
-const { start, isExist, log, initStart } = require('./utils')
-const chalk = require('chalk')
-const process = require('process')
-const fs = require('fs')
+
+const download = require('download-git-repo')
+const program = require('commander')
+const exists = require('fs').existsSync
+const path = require('path')
 const ora = require('ora')
+const home = require('user-home')
+const tildify = require('tildify')
+const chalk = require('chalk')
+const inquirer = require('inquirer')
+const rm = require('rimraf').sync
+const logger = require('../lib/logger')
+const generate = require('../lib/generate')
+const checkVersion = require('../lib/check-version')
+const warnings = require('../lib/warnings')
+const localPath = require('../lib/local-path')
 
+const isLocalPath = localPath.isLocalPath
+const getTemplatePath = localPath.getTemplatePath
 
+/**
+ * Usage.
+ */
 
-let init = async (username, token) => {
+// program
+//     .usage('<template-name> [project-name]')
+//     .option('-c, --clone', 'use git clone')
+//     .option('--offline', 'use cached template')
 
-    try {
-        await loadCmd(`git init`, 'git初始化');
-        if (username === '' || token === '') {
-            console.log(symbol.warning, chalk.yellow('缺少参数无法创建远程仓库'));
-        } else {
-            const projectName = process.cwd().split('\\').slice(-1)[0];
-            await loadCmd(`curl -u qjk-xiaoqi:a97fc56cbefe4bdc092490067bb1a9727615a583 https://api.github.com/user/repos -d "{\"name\": \"kkk\"}"`, 'Github仓库创建');
-            // curl -u qjk-xiaoqi:a97fc56cbefe4bdc092490067bb1a9727615a583 https://api.github.com/user/repos -d "{\"name\": \"auto\"}"
-            await loadCmd(`git remote add origin https://github.com/${username}/${projectName}.git`, '关联远端仓库')
-            let loading = ora();
-            loading.start(`package.json更新repository：命令执行中...`);
-            await updateJsonFile('package.json', {
-                "repository": {
-                    "type": "git",
-                    "url": `https://github.com/${username}/${projectName}.git`
-                }
-            }).then(() => {
-                loading.succeed(`package.json更新repository: 命令执行完成`);
-            });
-            await loadCmd(`git add .`, "执行 git add");
-            await loadCmd(`git commit -a -m "init"`, '执行git commit')
-            await loadCmd(`git push --set-upstream origin master`, '执行git push')
+/**
+ * Help.
+ */
+
+// program.on('--help', () => {
+//     console.log('  Examples:')
+//     console.log()
+//     console.log(chalk.gray('    # create a new project with an official template'))
+//     console.log('    $ vue init webpack my-project')
+//     console.log()
+//     console.log(chalk.gray('    # create a new project straight from a github template'))
+//     console.log('    $ vue init username/repo my-project')
+//     console.log()
+// })
+
+/**
+ * Help.
+ */
+
+// function help() {
+//     program.parse(process.argv)
+//     if (program.args.length < 1) return program.help()
+// }
+// help()
+
+/**
+ * Settings.
+ */
+
+// let template = program.args[0]
+// const hasSlash = template.indexOf('/') > -1
+// const rawName = program.args[1]
+// const inPlace = !rawName || rawName === '.'
+// const name = inPlace ? path.relative('../', process.cwd()) : rawName
+// const to = path.resolve(rawName || '.')
+// const clone = program.clone || false
+
+// const tmp = path.join(home, '.vue-templates', template.replace(/[\/:]/g, '-'))
+// if (program.offline) {
+//     console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
+//     template = tmp
+// }
+
+/**
+ * Padding.
+ */
+
+// console.log()
+// process.on('exit', () => {
+//     console.log()
+// })
+
+if (inPlace || exists(to)) {
+    inquirer.prompt([{
+        type: 'confirm',
+        message: inPlace
+            ? 'Generate project in current directory?'
+            : 'Target directory exists. Continue?',
+        name: 'ok'
+    }]).then(answers => {
+        if (answers.ok) {
+            run()
         }
-        await loadCmd(`npm install`, "安装依赖");
-    } catch (err) {
-        console.log(symbol.error, chalk.red('初始化失败'));
-        console.log(symbol.error, chalk.red(err));
-        process.exit(1);
-    }
-
+    }).catch(logger.fatal)
+} else {
+    run()
 }
 
-let loadCmd = async (cmd, text) => {
-    let loading = ora();
-    loading.start(`${text}: 命令执行中...`);
-    await child.exec(cmd);
-    loading.succeed(`${text}: 命令执行完成`)
+/**
+ * Check, download and generate the project.
+ */
+
+function run() {
+    // check if template is local
+    if (isLocalPath(template)) {
+        const templatePath = getTemplatePath(template)
+        if (exists(templatePath)) {
+            generate(name, templatePath, to, err => {
+                if (err) logger.fatal(err)
+                console.log()
+                logger.success('Generated "%s".', name)
+            })
+        } else {
+            logger.fatal('Local template "%s" not found.', template)
+        }
+    } else {
+        checkVersion(() => {
+            if (!hasSlash) {
+                // use official templates
+                const officialTemplate = 'vuejs-templates/' + template
+                if (template.indexOf('#') !== -1) {
+                    downloadAndGenerate(officialTemplate)
+                } else {
+                    if (template.indexOf('-2.0') !== -1) {
+                        warnings.v2SuffixTemplatesDeprecated(template, inPlace ? '' : name)
+                        return
+                    }
+
+                    // warnings.v2BranchIsNowDefault(template, inPlace ? '' : name)
+                    downloadAndGenerate(officialTemplate)
+                }
+            } else {
+                downloadAndGenerate(template)
+            }
+        })
+    }
 }
 
-// 安装依赖
-exports.init = async function (...args) {
-    // 检测是否存在 node npm
-    console.log(args);
-    if (!args[0].indexOf('node')) {
-        log(chalk.red('  缺少node(npm)环境'))
-        process.exit()
-    }
-    // 检查是否存在 json
-    if (!fs.existsSync('package.json')) {
-        log(chalk.red('  缺少package.json'))
-        process.exit()
-    }
-    let install = await initStart()
-    if (install) {
-        process.exit()
-    }
-}
+/**
+ * Download a generate from a template repo.
+ *
+ * @param {String} template
+ */
 
+function downloadAndGenerate(template) {
+    const spinner = ora('downloading template')
+    spinner.start()
+    // Remove if local template exists
+    if (exists(tmp)) rm(tmp)
+    download(template, tmp, { clone }, err => {
+        spinner.stop()
+        if (err) logger.fatal('Failed to download repo ' + template + ': ' + err.message.trim())
+        generate(name, tmp, to, err => {
+            if (err) logger.fatal(err)
+            console.log()
+            logger.success('Generated "%s".', name)
+        })
+    })
+}

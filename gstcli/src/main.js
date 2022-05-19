@@ -3,7 +3,7 @@
 const program = require('commander')
 const { createProject, createWrokspace } = require('./create')
 const { build } = require('./build')
-const { init } = require('./init')
+const { install } = require('./install')
 const { dev } = require('./dev')
 
 
@@ -31,7 +31,7 @@ const actionMap = {
         alias: 'w'
     },
     'init': {
-        description: '初始化(安装依赖)',
+        description: '初始化',
         alias: ''
     },
     'install': {
@@ -68,8 +68,8 @@ program
             case 'create':
                 createProject(...process.argv.slice(2));
                 break;
-            case 'init':
-                init(...process.argv);
+            case 'install':
+                install(...process.argv);
                 break;
             case 'dev':
                 dev(program.port);
