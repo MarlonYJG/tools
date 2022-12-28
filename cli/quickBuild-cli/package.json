@@ -1,0 +1,23 @@
+{
+  "name": "quickbuild-cli",
+  "version": "1.0.0",
+  "description": "初始化项目构建工具(Cli)",
+  "main": "index.js",
+  "bin": {
+    "gstcli": "./bin/cmd.js",
+    "gst-cli": "./bin/cmd.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Marlon",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "download-git-repo": "^3.0.2",
+    "inquirer": "^8.2.4",
+    "log-symbols": "^4.1.0",
+    "ora": "^4.0.3"
+  }
+}
